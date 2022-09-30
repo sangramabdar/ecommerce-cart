@@ -13,9 +13,12 @@ function App() {
         <BrowserRouter>
           <NavBar />
           <Routes>
-            <Route path="/" element={<HomePage />}></Route>
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="*" element={<Navigate replace to="/" />} />
+            <Route path="/ecommerce-cart-deploy" element={<HomePage />}></Route>
+            <Route path="/ecommerce-cart-deploy/cart" element={<CartPage />} />
+            <Route
+              path="*"
+              element={<Navigate replace to="/ecommerce-cart-deploy" />}
+            />
           </Routes>
         </BrowserRouter>
       </div>
