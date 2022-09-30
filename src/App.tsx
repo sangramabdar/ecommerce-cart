@@ -1,5 +1,5 @@
 import { Provider } from "react-redux";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import CartPage from "./pages/CartPage";
@@ -13,8 +13,9 @@ function App() {
         <BrowserRouter>
           <NavBar />
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage />}></Route>
             <Route path="/cart" element={<CartPage />} />
+            <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
         </BrowserRouter>
       </div>
