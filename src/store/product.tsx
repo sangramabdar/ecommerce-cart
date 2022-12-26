@@ -1,4 +1,4 @@
-import { createSlice, Slice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface ProductType {
   id: number;
@@ -16,17 +16,24 @@ interface ProductType {
 enum STATUS {
   LOADING = "laoding",
   ERROR = "error",
-  IDLE = "idle",
+  SUCCESS = "Success",
+}
+
+function convertPriceToRoundvalue(products: any[]) {
+  products.forEach((product: ProductType) => {
+    product.price = Math.round(product.price);
+  });
 }
 
 const productSlice = createSlice({
   name: "products",
   initialState: {
     data: [],
-    status: STATUS.ERROR,
+    status: STATUS.LOADING,
   },
   reducers: {
     saveProducts(state, action) {
+      convertPriceToRoundvalue(action.payload);
       state.data = action.payload;
     },
     setStatus(state, action) {
@@ -43,7 +50,7 @@ function getProducts() {
       dispatch(setStatus(STATUS.LOADING));
       const response = await fetch("https://fakestoreapi.com/products");
       const data = await response.json();
-      dispatch(setStatus(STATUS.IDLE));
+      dispatch(setStatus(STATUS.SUCCESS));
       dispatch(saveProducts(data));
     } catch (error) {
       dispatch(setStatus(STATUS.ERROR));

@@ -4,11 +4,11 @@ import { addToCart, removeFromCart } from "../store/cart";
 import { ProductType } from "../store/product";
 
 interface CartProductPropsType extends ProductType {
-  count: number;
+  quantity: number;
 }
 
 function CartProduct(product: CartProductPropsType) {
-  const { id, image, title, price, count } = product;
+  const { id, image, title, price, quantity } = product;
   const dispatch = useDispatch();
   const removeProductFromHandler = (id: number) => {
     dispatch(removeFromCart(id));
@@ -24,7 +24,7 @@ function CartProduct(product: CartProductPropsType) {
         <img className="h-fit w-12 object-cover" src={image} alt="" />
       </div>
 
-      <p className="text-center ">{count}</p>
+      <p className="text-center ">{quantity}</p>
       <p className="text-center w-44">{title}</p>
       <p className="text-center">{price}</p>
       <button
@@ -41,22 +41,18 @@ function CartProduct(product: CartProductPropsType) {
 
 function Cart() {
   const dispatch = useDispatch();
-  const { cartProducts } = useSelector<
-    any,
-    {
-      cartProducts: CartProductPropsType[];
-    }
-  >(state => state.cart);
-  console.log(cartProducts);
+  const { cartItems, totalPrice } = useSelector<any, any>(state => state.cart);
+
   const removeHandler = (id: number) => {
     dispatch(removeFromCart(id));
   };
 
   return (
     <div className="flex flex-col gap-5">
-      {cartProducts.map(product => {
-        return <CartProduct key={product.id} {...product} />;
+      {cartItems.map((item: any) => {
+        return <CartProduct key={item.id} {...item} />;
       })}
+      <div className="flex justify-end">Total Price : {totalPrice}</div>
     </div>
   );
 }

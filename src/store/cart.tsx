@@ -1,10 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialCart: {
-  cartProducts: any[];
+  cartItems: any[];
+  totalPrice: number;
 } = {
-  cartProducts: [],
+  cartItems: [],
+  totalPrice: 0,
 };
+
+function calculateTotalPrice(cartItems: any[]): number {
+  return cartItems.reduce((sum, element) => sum + element.price, 0);
+}
 
 const cartSlice = createSlice({
   name: "cart",
@@ -12,32 +18,34 @@ const cartSlice = createSlice({
   reducers: {
     addToCart(state, action) {
       //for same product
-      let filteredProduct = state.cartProducts.filter(
+      let filteredProduct = state.cartItems.filter(
         product => product.id === action.payload.id
       );
 
       if (filteredProduct.length > 0) {
-        for (let product of state.cartProducts) {
+        for (let product of state.cartItems) {
           if (product.id === action.payload.id) {
-            product.count++;
-            return;
+            product.quantity++;
+            product.price *= product.quantity;
           }
         }
+      } else {
+        //for new product
+        let newProduct = { ...action.payload };
+        newProduct.quantity = 1;
+        state.cartItems.push(newProduct);
       }
 
-      //for new product
-      let newProduct = { ...action.payload };
-
-      newProduct.count = 1;
-      state.cartProducts.push(newProduct);
+      state.totalPrice = calculateTotalPrice(state.cartItems);
     },
 
     removeFromCart(state, action) {
-      const newCart = state.cartProducts.filter(product => {
+      const newCart = state.cartItems.filter(product => {
         return product.id !== action.payload;
       });
 
-      state.cartProducts = newCart;
+      state.cartItems = newCart;
+      state.totalPrice = calculateTotalPrice(state.cartItems);
     },
   },
 });

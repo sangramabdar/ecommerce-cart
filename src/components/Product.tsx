@@ -2,7 +2,6 @@ import React from "react";
 import { ProductType } from "../store/product";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/cart";
-
 interface ProductPropstype extends ProductType {}
 
 function Product(product: ProductPropstype) {

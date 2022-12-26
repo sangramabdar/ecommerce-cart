@@ -18,16 +18,17 @@ function Products() {
   }, []);
 
   if (status === STATUS.LOADING) {
-    return <div>loading....</div>;
+    return <div>Loading....</div>;
   }
 
   if (status === STATUS.ERROR) {
     return <div>something went wrong</div>;
   }
+
   return (
     <div className="">
       <h1 className="font-bold mb-5">Products</h1>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
         {products.map(product => {
           return <Product key={product.id} {...product} />;
         })}

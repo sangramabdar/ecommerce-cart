@@ -13,7 +13,7 @@ function App() {
         <BrowserRouter>
           <NavBar />
           <Routes>
-            <Route path="/ecommerce-cart-deploy" element={<HomePage />}></Route>
+            <Route path="/ecommerce-cart-deploy" element={<HomePage />} />
             <Route path="/ecommerce-cart-deploy/cart" element={<CartPage />} />
             <Route
               path="*"
